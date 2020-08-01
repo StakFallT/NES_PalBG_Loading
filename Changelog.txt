@@ -1,0 +1,96 @@
+ChangeLog
+
+07/24/2020 7:32 PM:
+    Restructured directory layout to be better organized. The following structure is as follows:
+        Default layout:
+            \Assets
+                \Default
+		            \Chr (Pattern Tables)
+		                \<project number>
+		                    \BG
+		                        \(backups)
+		                    \SPR
+		                        \(backups)
+		                    \Hybrid
+		                        \(backups)
+		            \NameTables
+		                \<project number>
+		                    \TileMaps
+		                        \0
+		                            \(backups)
+		                        \1
+		                            \(backups)
+		                        \2
+		                            \(backups)
+		                        \3
+		                            \(backups)
+		                    \AttributeTables
+		                        \0
+		                            \(backups)
+		                        \1
+		                            \(backups)
+		                        \2
+		                            \(backups)
+		                        \3
+		                            \(backups)
+		                    \Hybrid
+		                        \0
+		                            \(backups)
+		                        \1
+		                            \(backups)
+		                        \2
+		                            \(backups)
+		                        \3
+		                            \(backups)
+		            \Palettes
+		                \<project number>
+		                    \(backups)
+
+    Obviously, hybrid contains both of the other directories but in a single file. This is convenient if you don't want to load as many individual files in an attempt to
+    minimize code.
+
+
+07/29/2020 3:42 PM:
+    Implemented a psuedo-stack mechanism with ax, bx, cx, and dx registers. This should assist in developing as the registers should be, like
+    they are on the x86 arch, global variables and can at any time be used (though even just decent level coding standards kind've dictate that
+    anything trampled in a procedure should be preserved by the procedure and then restored back just before returning). With the addition of
+    the x86-like registers, a stack was implemented to enhance the pushing and popping capabilities of the developer. No longer should the
+    developer be limited to only pha be able to be pushed to the stack; now ax, and once the other functions are copy / pasted and modified, bx,
+    cx, and dx can be pushed to a stack (though not the same stack -- this had to be because there's no way to automate pushing variable values
+    BEFORE a function prologue and thus values on the stack would come AFTER the return address causing the NES to believe that was the return
+    address).
+
+    The labels for the registers are set up in a way to allow for a full-blown 32-bit version of the registers, though the code has only been
+    implemented for the 16-bit ones (it shouldn't be overly difficult to implement the 32-bit version, just follow the same pattern as the 16-bit
+    versions but 2 more bytes)
+
+    The psuedo-stack system variables are as such:
+        stack (defaulted to 50 bytes)
+        stack_mem - contains the number of bytes the stack can hold in total (set to 50 by default)
+
+        stack variables:
+            bp - Unused at the moment
+            sp - Used as a result of the push and pop routines and it auto-incremented / auto-decremented depending on the operation performed
+
+        x86 registers:
+            ax
+                ah
+                al
+
+            bx - Not fully implemented yet
+            cx - Not fully implemented yet
+            dx - Not fully implemented yet
+
+        Functions:
+            push_ax - push the ax register value onto the pseudo-stack -- eventually calls Store_ax_Word
+            pop_ax - pops the ax register value from the stack and stores it in the ax register -- eventually calls Restore_ax_Word
+
+    While not initially intended, the behavior of the remnant values of the stack and registers post pushing and popping seem to mirror the
+    same behavior as on the x86 arch.
+        * When values are popped from the stack, they remain in the stack but the stack pointer is adjusted
+        * When pushing values onto the stack, the register is not cleared automatically and retains its value
+
+
+
+    NOTE: Not all functions are used and some have since been deprecated. As such, more work is needed to fully clean the code
+

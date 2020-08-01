@@ -1,0 +1,30 @@
+[Version]
+Version=3000
+[Project]
+Assembler=nesasm
+Path=.\
+Group=2,-1,0,1,NES project to test palette and bkg loading,-2,-1,1,Assembly,-3,-1,1,Include,-4,-1,1,Misc,-5,-1,1,Resource
+F1=-2,2,1,-10,-32,1315,631,315,NES_PalBG_Loading.asm
+F4=-2,0,1,-10,-32,1315,742,26,Library\Graphics\PPU.inc
+C4=0
+B4=
+M4=
+C1=0
+B1=
+M1=
+F11=-10,0,1,-10,-32,1406,631,0,Notes_On_OldCode.inc
+C11=0
+B11=
+M11=
+F12=-4,0,1,-10,-32,1406,631,12,OldCode.inc
+C12=0
+B12=
+M12=
+Open=
+Api=
+[Make]
+Make=0
+0=nesasm (build),'',,'"$C"','"$C.nes"','',,'',
+Delete=0
+IncBuild=0
+Run=0,'',''
